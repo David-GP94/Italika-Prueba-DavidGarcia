@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Italika_Prueba.Api</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+	<TargetFramework>net8.0</TargetFramework>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<NoWarn>$(NoWarn);1591</NoWarn>
+   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.1" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\Italika-Prueba.Application\Italika-Prueba.Application.csproj" />
+    <ProjectReference Include="..\Italika-Prueba.Infrastructure\Italika-Prueba.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

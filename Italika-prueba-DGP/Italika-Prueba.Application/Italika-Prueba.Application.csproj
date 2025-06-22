@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Italika_Prueba.Application</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Italika-Prueba.Domain\Italika-Prueba.Domain.csproj" />
+    <ProjectReference Include="..\Italika-Prueba.Infrastructure\Italika-Prueba.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
