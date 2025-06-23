@@ -10,9 +10,9 @@ namespace Italika_Prueba.Api.Examples
             return new AlumnoDTO
             {
                 Id = Guid.NewGuid(),
-                Nombre = "María",
-                ApellidoPaterno = "López",
-                ApellidoMaterno = "Martínez",
+                Nombre = "Maria",
+                ApellidoPaterno = "Lopez",
+                ApellidoMaterno = "Martinez",
                 FechaNacimiento = new DateTime(2005, 5, 10)
             };
         }

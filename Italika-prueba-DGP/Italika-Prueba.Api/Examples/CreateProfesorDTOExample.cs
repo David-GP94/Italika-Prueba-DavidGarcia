@@ -10,8 +10,8 @@ namespace Italika_Prueba.Api.Examples
             return new CreateProfesorDTO
             {
                 Nombre = "Juan",
-                ApellidoPaterno = "Pérez",
-                ApellidoMaterno = "Gómez",
+                ApellidoPaterno = "Perez",
+                ApellidoMaterno = "Gomez",
                 EscuelaId = Guid.NewGuid()
             };
         }

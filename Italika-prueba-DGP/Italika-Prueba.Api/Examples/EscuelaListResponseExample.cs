@@ -12,8 +12,8 @@ namespace Italika_Prueba.Api.Examples
             new EscuelaDTO
             {
                 Id = Guid.NewGuid(),
-                Nombre = "Escuela de Música Beethoven",
-                Descripcion = "Clases de piano y violín."
+                Nombre = "Escuela de Musica Beethoven",
+                Descripcion = "Clases de piano y Violin."
             },
             new EscuelaDTO
             {

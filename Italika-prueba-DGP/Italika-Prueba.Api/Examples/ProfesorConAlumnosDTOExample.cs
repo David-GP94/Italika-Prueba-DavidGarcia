@@ -11,22 +11,22 @@ namespace Italika_Prueba.Api.Examples
             {
                 Id = Guid.NewGuid(),
                 Nombre = "Juan",
-                ApellidoPaterno = "Pérez",
-                ApellidoMaterno = "Gómez",
+                ApellidoPaterno = "Perez",
+                ApellidoMaterno = "Gomez",
                 Escuela = new EscuelaDTO
                 {
                     Id = Guid.NewGuid(),
-                    Nombre = "Escuela de Música Beethoven",
-                    Descripcion = "Clases de piano y violín."
+                    Nombre = "Escuela de Musica Beethoven",
+                    Descripcion = "Clases de piano y Violin."
                 },
                 Alumnos = new List<AlumnoDTO>
             {
                 new AlumnoDTO
                 {
                     Id = Guid.NewGuid(),
-                    Nombre = "María",
-                    ApellidoPaterno = "López",
-                    ApellidoMaterno = "Martínez",
+                    Nombre = "Maria",
+                    ApellidoPaterno = "Lopez",
+                    ApellidoMaterno = "Martinez",
                     FechaNacimiento = new DateTime(2005, 5, 10)
                 },
                 new AlumnoDTO

@@ -9,9 +9,9 @@ namespace Italika_Prueba.Api.Examples
         {
             return new CreateAlumnoDTO
             {
-                Nombre = "María",
-                ApellidoPaterno = "López",
-                ApellidoMaterno = "Martínez",
+                Nombre = "Maria",
+                ApellidoPaterno = "Lopez",
+                ApellidoMaterno = "Martinez",
                 FechaNacimiento = new DateTime(2005, 5, 10)
             };
         }

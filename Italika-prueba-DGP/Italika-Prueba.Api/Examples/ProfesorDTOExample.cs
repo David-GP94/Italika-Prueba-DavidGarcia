@@ -11,8 +11,8 @@ namespace Italika_Prueba.Api.Examples
             {
                 Id = Guid.NewGuid(),
                 Nombre = "Juan",
-                ApellidoPaterno = "Pérez",
-                ApellidoMaterno = "Gómez",
+                ApellidoPaterno = "Perez",
+                ApellidoMaterno = "Gomez",
                 EscuelaId = Guid.NewGuid()
             };
         }
