@@ -23,13 +23,31 @@ public class ItalikaContext : DbContext
         modelBuilder.Entity<Alumno>()
             .HasMany(a => a.Profesores)
             .WithMany(p => p.Alumnos)
-            .UsingEntity(j => j.ToTable("AlumnoProfesor"));
+            .UsingEntity<Dictionary<string, object>>(
+                "AlumnoProfesor",
+                j => j.HasOne<Profesor>().WithMany().HasForeignKey("ProfesorId"),
+                j => j.HasOne<Alumno>().WithMany().HasForeignKey("AlumnoId"),
+                j =>
+                {
+                    j.HasKey("AlumnoId", "ProfesorId");
+                    j.Property("AlumnoId").HasColumnName("AlumnoId");
+                    j.Property("ProfesorId").HasColumnName("ProfesorId");
+                });
 
         // Relación N:N entre Alumnos y Escuelas
         modelBuilder.Entity<Alumno>()
             .HasMany(a => a.Escuelas)
             .WithMany(e => e.Alumnos)
-            .UsingEntity(j => j.ToTable("AlumnoEscuela"));
+            .UsingEntity<Dictionary<string, object>>(
+                "AlumnoEscuela",
+                j => j.HasOne<Escuela>().WithMany().HasForeignKey("EscuelaId"),
+                j => j.HasOne<Alumno>().WithMany().HasForeignKey("AlumnoId"),
+                j =>
+                {
+                    j.HasKey("AlumnoId", "EscuelaId");
+                    j.Property("AlumnoId").HasColumnName("AlumnoId");
+                    j.Property("EscuelaId").HasColumnName("EscuelaId");
+                });
 
         // Configurar propiedades requeridas
         modelBuilder.Entity<Alumno>()
@@ -50,7 +68,7 @@ public class ItalikaContext : DbContext
     }
 
     public async Task InicializarBaseDatosAsync()
-    {   
+    {
         await Database.EnsureCreatedAsync();
 
         var sqlFilePath = Path.Combine(AppContext.BaseDirectory, "Scripts", "InitDatabase.sql");

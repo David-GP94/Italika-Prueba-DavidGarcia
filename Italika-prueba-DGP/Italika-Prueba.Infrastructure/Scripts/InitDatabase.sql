@@ -237,6 +237,44 @@ BEGIN
     END');
 END;
 
+-- Stored Procedure para Asignar Profesor
+IF NOT EXISTS (SELECT * FROM sys.procedures WHERE name = 'sp_AsignarProfesor')
+BEGIN
+    EXEC('CREATE PROCEDURE sp_AsignarProfesor
+        @AlumnoId UNIQUEIDENTIFIER,
+        @ProfesorId UNIQUEIDENTIFIER
+    AS
+    BEGIN
+        IF EXISTS (SELECT 1 FROM AlumnoProfesor WHERE AlumnoId = @AlumnoId AND ProfesorId = @ProfesorId)
+            THROW 50001, ''El profesor ya está asignado al alumno.'', 1;
+        IF NOT EXISTS (SELECT 1 FROM Alumnos WHERE Id = @AlumnoId)
+            THROW 50002, ''No se encontró el alumno.'', 1;
+        IF NOT EXISTS (SELECT 1 FROM Profesores WHERE Id = @ProfesorId)
+            THROW 50003, ''No se encontró el profesor.'', 1;
+        INSERT INTO AlumnoProfesor (AlumnoId, ProfesorId)
+        VALUES (@AlumnoId, @ProfesorId);
+    END;');
+END;
+
+-- Stored Procedure para Asignar Escuela
+IF NOT EXISTS (SELECT * FROM sys.procedures WHERE name = 'sp_AsignarEscuela')
+BEGIN
+    EXEC('CREATE PROCEDURE sp_AsignarEscuela
+        @AlumnoId UNIQUEIDENTIFIER,
+        @EscuelaId UNIQUEIDENTIFIER
+    AS
+    BEGIN
+        IF EXISTS (SELECT 1 FROM AlumnoEscuela WHERE AlumnoId = @AlumnoId AND EscuelaId = @EscuelaId)
+            THROW 50004, ''La escuela ya está asignada al alumno.'', 1;
+        IF NOT EXISTS (SELECT 1 FROM Alumnos WHERE Id = @AlumnoId)
+            THROW 50002, ''No se encontró el alumno.'', 1;
+        IF NOT EXISTS (SELECT 1 FROM Escuelas WHERE Id = @EscuelaId)
+            THROW 50005, ''No se encontró la escuela.'', 1;
+        INSERT INTO AlumnoEscuela (AlumnoId, EscuelaId)
+        VALUES (@AlumnoId, @EscuelaId);
+    END;');
+END;
+
 -- Insertar datos iniciales (opcional)
 IF NOT EXISTS (SELECT * FROM Escuelas)
 BEGIN

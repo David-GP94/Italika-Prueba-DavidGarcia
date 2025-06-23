@@ -71,32 +71,56 @@ namespace Italika_Prueba.Infrastructure.Repositories
 
         public async Task AsignarProfesorAsync(Guid alumnoId, Guid profesorId)
         {
-            var alumno = await _context.Alumnos.FindAsync(alumnoId);
-            var profesor = await _context.Profesores.FindAsync(profesorId);
-            if (alumno == null )
+            try
             {
-                throw new ArgumentException("Alumno no encontrado.");
+                await _context.Database.ExecuteSqlRawAsync(
+                    "EXEC sp_AsignarProfesor @AlumnoId, @ProfesorId",
+                    new SqlParameter("@AlumnoId", alumnoId),
+                    new SqlParameter("@ProfesorId", profesorId));
             }
-            else if (profesor == null)
+            catch (SqlException ex) when (ex.Number == 50001)
             {
-                throw new ArgumentException("Profesor no encontrado.");
-
+                throw new InvalidOperationException("El profesor ya está ligado al alumno.");
             }
-
-
-            alumno.Profesores.Add(profesor);
-            await _context.SaveChangesAsync();
+            catch (SqlException ex) when (ex.Number == 50002)
+            {
+                throw new ArgumentException("El alumno no existe.");
+            }
+            catch (SqlException ex) when (ex.Number == 50003)
+            {
+                throw new ArgumentException("El profesor no existe.");
+            }
+            catch (SqlException ex)
+            {
+                throw new InvalidOperationException($"Error al asignar el profesor: {ex.Message}", ex);
+            }
         }
 
         public async Task AsignarEscuelaAsync(Guid alumnoId, Guid escuelaId)
         {
-            var alumno = await _context.Alumnos.FindAsync(alumnoId);
-            var escuela = await _context.Escuelas.FindAsync(escuelaId);
-            if (alumno == null || escuela == null)
-                throw new ArgumentException("Alumno o Escuela no encontrada.");
-
-            alumno.Escuelas.Add(escuela);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    "EXEC sp_AsignarEscuela @AlumnoId, @EscuelaId",
+                    new SqlParameter("@AlumnoId", alumnoId),
+                    new SqlParameter("@EscuelaId", escuelaId));
+            }
+            catch (SqlException ex) when (ex.Number == 50004)
+            {
+                throw new InvalidOperationException("El alumno ya está inscrito en la escuela.");
+            }
+            catch (SqlException ex) when (ex.Number == 50002)
+            {
+                throw new ArgumentException("El alumno no existe.");
+            }
+            catch (SqlException ex) when (ex.Number == 50005)
+            {
+                throw new ArgumentException("La escuela no existe.");
+            }
+            catch (SqlException ex)
+            {
+                throw new InvalidOperationException($"Error al asignar la escuela: {ex.Message}", ex);
+            }
         }
 
         public async Task<IEnumerable<Alumno>> ObtenerPorProfesorIdAsync(Guid profesorId)

@@ -175,11 +175,19 @@ namespace Italika_Prueba.Api.Controllers
             try
             {
                 await _alumnoService.AsignarProfesorAsync(alumnoId, profesorId);
-                return Ok(new { Message = "Profesor asignado exitosamente." });
+                return Ok("Profesor asignado correctamente.");
+            }
+            catch (InvalidOperationException ex) when (ex.Message == "El profesor ya está ligado al alumno.")
+            {
+                return BadRequest(ex.Message);
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(new { Message = ex.Message });
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
             }
         }
 
@@ -195,16 +203,24 @@ namespace Italika_Prueba.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [SwaggerResponseExample(400, typeof(BadRequestResponseExample))]
-        public async Task<IActionResult> InscribirEscuela(Guid alumnoId, Guid escuelaId)
+        public async Task<IActionResult> AsignarEscuela(Guid alumnoId, Guid escuelaId)
         {
             try
             {
                 await _alumnoService.AsignarEscuelaAsync(alumnoId, escuelaId);
-                return Ok(new { Message = "Alumno inscrito exitosamente." });
+                return Ok("Escuela asignada correctamente.");
+            }
+            catch (InvalidOperationException ex) when (ex.Message == "El alumno ya está inscrito en la escuela.")
+            {
+                return BadRequest(ex.Message);
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(new { Message = ex.Message });
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
             }
         }
 
