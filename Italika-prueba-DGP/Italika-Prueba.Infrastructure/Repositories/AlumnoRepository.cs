@@ -37,9 +37,18 @@ namespace Italika_Prueba.Infrastructure.Repositories
 
         public async Task<Alumno?> ObtenerPorIdAsync(Guid id)
         {
-            return await _context.Alumnos
+            var alumno = await _context.Alumnos
                 .FromSqlRaw("EXEC sp_ObtenerAlumno @Id", new SqlParameter("@Id", id))
-                .FirstOrDefaultAsync();
+                .ToListAsync();
+            return alumno.FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<Alumno>> ObtenerTodosAsync()
+        {
+            var alumnos = await _context.Alumnos
+               .FromSqlRaw("EXEC sp_ObtenerAlumnos")
+               .ToListAsync();
+            return alumnos;
         }
 
         public async Task ActualizarAsync(Alumno alumno)
@@ -64,8 +73,16 @@ namespace Italika_Prueba.Infrastructure.Repositories
         {
             var alumno = await _context.Alumnos.FindAsync(alumnoId);
             var profesor = await _context.Profesores.FindAsync(profesorId);
-            if (alumno == null || profesor == null)
-                throw new ArgumentException("Alumno o Profesor no encontrado.");
+            if (alumno == null )
+            {
+                throw new ArgumentException("Alumno no encontrado.");
+            }
+            else if (profesor == null)
+            {
+                throw new ArgumentException("Profesor no encontrado.");
+
+            }
+
 
             alumno.Profesores.Add(profesor);
             await _context.SaveChangesAsync();
@@ -86,6 +103,7 @@ namespace Italika_Prueba.Infrastructure.Repositories
         {
             return await _context.Alumnos
                 .Include(a => a.Profesores)
+                .Include(a => a.Escuelas)
                 .Where(a => a.Profesores.Any(p => p.Id == profesorId))
                 .ToListAsync();
         }

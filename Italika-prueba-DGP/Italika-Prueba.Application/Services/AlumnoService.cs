@@ -37,7 +37,19 @@ namespace Italika_Prueba.Application.Services
             };
             return await _alumnoRepository.CrearAsync(alumno);
         }
-
+        public async Task<IEnumerable<AlumnoDTO>> ObtenerTodosAsync()
+        {
+            var alumnos = await _alumnoRepository.ObtenerTodosAsync();
+            if (alumnos == null) return null;
+            return alumnos.Select(a => new AlumnoDTO
+            {
+                Id = a.Id,
+                Nombre = a.Nombre,
+                ApellidoPaterno = a.ApellidoPaterno,
+                ApellidoMaterno = a.ApellidoMaterno,
+                FechaNacimiento = a.FechaNacimiento
+            });
+        }
         public async Task<AlumnoDTO?> ObtenerPorIdAsync(Guid id)
         {
             var alumno = await _alumnoRepository.ObtenerPorIdAsync(id);

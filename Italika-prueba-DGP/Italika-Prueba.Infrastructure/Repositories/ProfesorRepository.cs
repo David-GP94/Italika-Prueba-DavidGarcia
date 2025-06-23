@@ -35,11 +35,20 @@ namespace Italika_Prueba.Infrastructure.Repositories
             return profesor.Id;
         }
 
+        public async Task<IEnumerable<Profesor>> ObtenerTodosAsync()
+        {
+            var profesores = await _context.Profesores
+               .FromSqlRaw("EXEC sp_ObtenerProfesores")
+               .ToListAsync();
+            return profesores;
+        }
+
         public async Task<Profesor?> ObtenerPorIdAsync(Guid id)
         {
-            return await _context.Profesores
+            var profesor = await _context.Profesores
                 .FromSqlRaw("EXEC sp_ObtenerProfesor @Id", new SqlParameter("@Id", id))
-                .FirstOrDefaultAsync();
+                .ToListAsync();
+            return profesor.FirstOrDefault();
         }
 
         public async Task ActualizarAsync(Profesor profesor)

@@ -11,6 +11,7 @@ namespace Italika_Prueba.Domain.Interfaces
     {
         Task<Guid> CrearAsync(Profesor profesor);
         Task<Profesor?> ObtenerPorIdAsync(Guid id);
+        Task<IEnumerable<Profesor?>> ObtenerTodosAsync();
         Task ActualizarAsync(Profesor profesor);
         Task EliminarAsync(Guid id);
         Task<IEnumerable<Profesor>> ObtenerPorEscuelaIdAsync(Guid escuelaId);

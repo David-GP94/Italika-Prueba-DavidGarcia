@@ -35,9 +35,10 @@ namespace Italika_Prueba.Infrastructure.Repositories
 
         public async Task<Escuela?> ObtenerPorIdAsync(Guid id)
         {
-            return await _context.Escuelas
+            var escuela = await _context.Escuelas
                 .FromSqlRaw("EXEC sp_ObtenerEscuela @Id", new SqlParameter("@Id", id))
-                .FirstOrDefaultAsync();
+                .ToListAsync();
+            return escuela.FirstOrDefault();
         }
 
         public async Task ActualizarAsync(Escuela escuela)

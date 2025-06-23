@@ -123,6 +123,8 @@ BEGIN
     END');
 END;
 
+
+
 IF NOT EXISTS (SELECT * FROM sys.procedures WHERE name = 'sp_ObtenerProfesor')
 BEGIN
     EXEC('CREATE PROCEDURE sp_ObtenerProfesor
@@ -132,6 +134,16 @@ BEGIN
         SELECT Id, Nombre, ApellidoPaterno, ApellidoMaterno, EscuelaId
         FROM Profesores
         WHERE Id = @Id;
+    END');
+END;
+
+IF NOT EXISTS (SELECT * FROM sys.procedures WHERE name = 'sp_ObtenerProfesores')
+BEGIN
+    EXEC('CREATE PROCEDURE sp_ObtenerProfesores
+    AS
+    BEGIN
+        SELECT Id, Nombre, ApellidoPaterno, ApellidoMaterno, EscuelaId
+        FROM Profesores
     END');
 END;
 
@@ -189,6 +201,16 @@ BEGIN
     END');
 END;
 
+IF NOT EXISTS (SELECT * FROM sys.procedures WHERE name = 'sp_ObtenerAlumnos')
+BEGIN
+    EXEC('CREATE PROCEDURE sp_ObtenerAlumnos
+    AS
+    BEGIN
+        SELECT Id, Nombre, ApellidoPaterno, ApellidoMaterno, FechaNacimiento
+        FROM Alumnos;
+    END');
+END;
+
 IF NOT EXISTS (SELECT * FROM sys.procedures WHERE name = 'sp_ActualizarAlumno')
 BEGIN
     EXEC('CREATE PROCEDURE sp_ActualizarAlumno
@@ -219,6 +241,5 @@ END;
 IF NOT EXISTS (SELECT * FROM Escuelas)
 BEGIN
     INSERT INTO Escuelas (Id, Nombre, Descripcion)
-    VALUES (NEWID(), 'Escuela de Música Beethoven', 'Clases de piano y violín.'),
-           (NEWID(), 'Escuela de Arte Mozart', 'Clases de guitarra y canto.');
+    VALUES (NEWID(), 'Escuela de Arte Mozart', 'Clases de guitarra y canto.');
 END;

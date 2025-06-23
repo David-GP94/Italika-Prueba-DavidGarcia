@@ -1,6 +1,7 @@
 ﻿using Italika_Prueba.Application.Dtos;
 using Italika_Prueba.Domain.Entities;
 using Italika_Prueba.Domain.Interfaces;
+using Italika_Prueba.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,20 @@ namespace Italika_Prueba.Application.Services
                 EscuelaId = dto.EscuelaId
             };
             return await _profesorRepository.CrearAsync(profesor);
+        }
+
+        public async Task<IEnumerable<ProfesorDTO>> ObtenerTodosAsync()
+        {
+            var profesores = await _profesorRepository.ObtenerTodosAsync();
+            if (profesores == null) return null;
+            return profesores.Select(p => new ProfesorDTO
+            {
+                Id = p.Id,
+                Nombre = p.Nombre,
+                ApellidoPaterno = p.ApellidoPaterno,
+                ApellidoMaterno = p.ApellidoMaterno,
+                EscuelaId = p.EscuelaId
+            });
         }
 
         public async Task<ProfesorDTO?> ObtenerPorIdAsync(Guid id)

@@ -51,6 +51,27 @@ namespace Italika_Prueba.Api.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Obtiene todos los profesores.
+        /// </summary>
+        /// <returns>Listado de todos los profesores.</returns>
+        /// <response code="200">profesores encontrados.</response>
+        /// <response code="404">Ningun profesor registrado.</response>
+        [HttpGet]
+        [Route("ObtenerTodos")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerResponseExample(200, typeof(AlumnoDTOExample))]
+        [SwaggerResponseExample(404, typeof(NotFoundResponseExample))]
+        public async Task<IActionResult> ObtenerTodos()
+        {
+            var alumnos = await _profesorService.ObtenerTodosAsync();
+            if (!alumnos.Any())
+                return NotFound(new { Message = "Ningun profesor registrado." });
+            return Ok(alumnos);
+        }
+
         /// <summary>
         /// Obtiene un profesor por su ID.
         /// </summary>

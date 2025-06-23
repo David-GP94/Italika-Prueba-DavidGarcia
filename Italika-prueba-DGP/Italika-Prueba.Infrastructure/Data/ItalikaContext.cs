@@ -50,7 +50,7 @@ public class ItalikaContext : DbContext
     }
 
     public async Task InicializarBaseDatosAsync()
-    {
+    {   
         await Database.EnsureCreatedAsync();
 
         var sqlFilePath = Path.Combine(AppContext.BaseDirectory, "Scripts", "InitDatabase.sql");
